@@ -33,7 +33,7 @@ class App extends React.Component{
         let uploadList = []
         data.append("fileName", file.name)
         data.append("chunkNum", chunkNum)
-        axios.post("http://192.168.1.12/uploadInfo", data, {headers: {"Content-Type": "multipart/form-data"}}).then(r=>{
+        axios.post("http://"+window.location.host+"/uploadInfo", data, {headers: {"Content-Type": "multipart/form-data"}}).then(r=>{
             if (r.data.msg === "ok") {
                 for (let i=0; i < chunkNum; i++) {
                     const data = new FormData()
@@ -43,7 +43,7 @@ class App extends React.Component{
                         data.append("file", file.slice(i*chunkSize,(i+1)*chunkSize))
                     data.append("index", i)
                     data.append("name", file.name)
-                    uploadList.push(axios.post("http://192.168.1.12/uploadChunks", data, {headers: {"Content-Type": "multipart/form-data"}}).then(r=>{
+                    uploadList.push(axios.post("http://"+window.location.host+"/uploadChunks", data, {headers: {"Content-Type": "multipart/form-data"}}).then(r=>{
                         if (r.data.msg === "ok")
                             this.setState({
                                 process: this.state.process + 1
